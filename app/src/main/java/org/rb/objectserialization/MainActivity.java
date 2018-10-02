@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import org.rb.objectserialization.model.Person;
-import org.rb.objectserialization.service.WriteReadObj;
+import org.rb.objectserialization.service.WriteReadObj_G;
 import org.rb.objectserialization.tools.Dialogs;
 
 import java.io.IOException;
@@ -90,7 +90,9 @@ public class MainActivity extends AppCompatActivity
         if(pos < 0) return;
         Person person;
         try {
-            person = WriteReadObj.instanciate(getApplicationContext()).getByIdx(pos);
+
+            person = (Person) WriteReadObj_G.instanciate(getApplicationContext()).getByIdx(pos);
+
 
         }catch (IOException | ClassNotFoundException | CloneNotSupportedException ex){
             Dialogs.infoDlg(this, Dialogs.InfoType.Error,ex.getMessage());
@@ -111,9 +113,10 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        WriteReadObj service;
+                        WriteReadObj_G<Person> service;
                         try {
-                            service = WriteReadObj.instanciate(getApplicationContext());
+                            //noinspection unchecked
+                            service = WriteReadObj_G.instanciate(getApplicationContext());
                             service.removeAll();
                         } catch (IOException | ClassNotFoundException e) {
 
@@ -159,9 +162,10 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         if (id == R.id.action_build_demo) {
-            WriteReadObj service;
+            WriteReadObj_G<Person> service;
             try {
-                service = WriteReadObj.instanciate(getApplicationContext());
+                //noinspection unchecked
+                service = WriteReadObj_G.instanciate(getApplicationContext());
                 service.removeAll();
                 for(int i=0; i<=20; i++){
                     service.add(new Person("Name_"+i,"Address_"+i,20+i));
@@ -181,8 +185,9 @@ public class MainActivity extends AppCompatActivity
 
         try {
 
+            //noinspection unchecked
             addapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
-                    WriteReadObj.instanciate(getApplicationContext()).findAll());
+                    WriteReadObj_G.instanciate(getApplicationContext()).findAll());
 
         } catch (IOException | ClassNotFoundException e) {
             Dialogs.infoDlg(this, Dialogs.InfoType.Error,e.getMessage());
@@ -192,8 +197,10 @@ public class MainActivity extends AppCompatActivity
         personsListView.setAdapter(addapter);
     }
 
-    private void updateListView(WriteReadObj service){
 
+    private void updateListView(WriteReadObj_G service){
+
+        @SuppressWarnings("unchecked")
         ArrayAdapter<Person> addapter =
                 new ArrayAdapter<>(this,
                                     android.R.layout.simple_list_item_1,
@@ -207,9 +214,10 @@ public class MainActivity extends AppCompatActivity
     public void onPersonFormDlgOk(Person person) {
         Toast.makeText(this,person.toString(),Toast.LENGTH_SHORT).show();
 
-        WriteReadObj service;
+        WriteReadObj_G<Person> service;
         try {
-            service = WriteReadObj.instanciate(getApplicationContext());
+            //noinspection unchecked
+            service = WriteReadObj_G.instanciate(getApplicationContext());
             service.add(person);
         } catch (IOException | ClassNotFoundException e) {
             Dialogs.infoDlg(this, Dialogs.InfoType.Error,e.getMessage());
@@ -224,9 +232,10 @@ public class MainActivity extends AppCompatActivity
     public void onPersonEditOK(Person person) {
         Toast.makeText(this,person.toString(),Toast.LENGTH_SHORT).show();
 
-        WriteReadObj service;
+        WriteReadObj_G<Person> service;
         try {
-            service = WriteReadObj.instanciate(getApplicationContext());
+            //noinspection unchecked
+            service = WriteReadObj_G.instanciate(getApplicationContext());
             service.edit(person);
         } catch (IOException | ClassNotFoundException e) {
             Dialogs.infoDlg(this, Dialogs.InfoType.Error,e.getMessage());
@@ -239,9 +248,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPersonActionConfirmOK(UUID personID) {
 
-        WriteReadObj service;
+        WriteReadObj_G<Person> service;
         try {
-            service = WriteReadObj.instanciate(getApplicationContext());
+            //noinspection unchecked
+            service = WriteReadObj_G.instanciate(getApplicationContext());
             service.remove(personID);
         } catch (IOException | ClassNotFoundException e) {
             Dialogs.infoDlg(this, Dialogs.InfoType.Error,e.getMessage());

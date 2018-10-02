@@ -1,9 +1,8 @@
 package org.rb.objectserialization.model;
 
-import java.io.Serializable;
 import java.util.UUID;
 
-public class Person implements Serializable, Cloneable, Indexable {
+public class Person implements IObjectSerializable {
 
     private UUID id;
     private String name;

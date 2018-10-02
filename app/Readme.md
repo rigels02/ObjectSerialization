@@ -4,6 +4,8 @@
 
 ### Class WriteReadObj
 
+Class WriteReadObj reworked as generic class.
+
 - tried to make this class as Singletone , but keep Android context as static member to use with file operations was a bad thing
 - it was easier and better to make it as ordinary class with factory instantiation method and keep context as nonstatic class member
 - WriteReadObj constructor instantiate List&lt;Person> member and load it with data from file
